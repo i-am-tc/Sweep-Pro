@@ -1,23 +1,17 @@
 manifest:
   remotes:
-    - name: zmkfirmware
-      url-base: https://github.com/zmkfirmware
-    # Add this:
-    - name: halfdane
-      url-base: https://github.com/halfdane/
+  - name: zmkfirmware
+    url-base: https://github.com/lynnlee0522 # 修改这里
+  - name: nxtkb
+    url-base: https://github.com/nxtkb
   projects:
-    - name: zmk
-      remote: zmkfirmware
-      revision: main
-      import: app/west.yml
-    # Add this:
-    - name: zmk-input-gestures
-      remote: halfdane
-      revision: main
-    # Add these if you want to use absolute mode:
-    - name: zmk-input-processors
-      remote: halfdane
-      revision: main
-    - name: cirque-input-module
-      remote: halfdane
-      revision: absolute_mode
+  - name: zmk
+    remote: zmkfirmware
+    revision: ink_rotation # 修改这里，指定分支名
+    import: app/west.yml
+  - name: zmk-behavior-report
+    remote: nxtkb
+    revision: main
+    import: west.yml
+  self:
+    path: config
