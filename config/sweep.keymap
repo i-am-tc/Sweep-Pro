@@ -28,7 +28,7 @@
 		triggers-per-rotation = <15>;
 	};
 	right_encoder {
-		triggers-per-rotation = <45>;
+		triggers-per-rotation = <15>;
 	};
 };
 
@@ -36,12 +36,19 @@
 / {
 	
 	behaviors {
+		lth: lth {
+			compatible = "zmk,behavior-hold-tap";
+			#binding-cells = <2>;
+			flavor = "tap-preferred";
+			tapping-term-ms = <150>;
+			bindings = <&mo>, <&kp>;
+		};
 		ht: hold_tap {
 			label = "hold_tap";
 			compatible = "zmk,behavior-hold-tap";
 			#binding-cells = <2>;
 			flavor = "balanced";
-			tapping-term-ms = <200>;
+			tapping-term-ms = <150>;
 			quick-tap-ms = <150>;
 			require-prior-idle-ms = <125>;
 			global-quick-tap;
@@ -77,7 +84,7 @@
 			&kp Q   &kp W       &kp E        &kp R        &kp T        &kp Y      &kp U        &kp I        &kp O       &kp P
 			&kp A   &ht LALT S  &ht LCTRL D  &ht LGUI F   &kp G         &kp H      &ht RGUI J   &ht RCTRL K  &ht RALT L  &kp BSPC
 			&kp Z   &kp X       &kp C        &kp V        &kp B         &kp N      &kp M        &kp COMMA    &kp DOT     &kp ENTER
-			&kp C_MUTE  &lt LEF TAB  &kp LSHIFT    &kp SPACE  &lt RIG TAB   &studio_unlock
+			&kp C_MUTE  &lth LEF TAB  &kp LSHIFT    &kp SPACE  &lth RIG TAB   &studio_unlock
 			>;
 			sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp PG_UP PG_DN>;
 		};
@@ -88,7 +95,7 @@
 			&kp Q  &kp W       &kp E       &kp R        &kp T         &kp Y      &kp U        &kp I       &kp O       &kp P
 			&kp A  &ht LALT S  &ht LGUI D  &ht LCTRL F  &kp G         &kp H      &ht RCTRL J  &ht RGUI K  &ht RALT L  &kp BSPC
 			&kp Z  &kp X       &kp C       &kp V        &kp B         &kp N      &kp M        &kp COMMA   &kp DOT     &kp ENTER
-			&kp C_MUTE  &lt LEF TAB  &kp LSHIFT     &kp SPACE &lt RIG TAB  &studio_unlock
+			&kp C_MUTE  &lth LEF TAB  &kp LSHIFT     &kp SPACE &lth RIG TAB  &studio_unlock
 			>;
 			sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp PG_UP PG_DN>;
 		};
@@ -108,8 +115,8 @@
 			display-name = "SYMBOL";
 			bindings = <
 			&kp EXCL  &kp AT    &kp HASH  &kp DLLR  &kp PRCNT    &kp CARET  &kp AMPS   &kp ASTRK  &kp GRAVE  &kp TILDE
-			&kp DQT   &kp LBKT  &kp LBRC  &kp LPAR  &default_report     &kp FSLH   &kp MINUS  &kp EQUAL  &kp COLON  &kp SEMI
-			&kp SQT   &kp RBKT  &kp RBRC  &kp RPAR  &trans   &kp BSLH   &kp UNDER  &kp PLUS   &kp PIPE   &kp QMARK
+			&kp DQT   &kp LBKT  &kp LBRC  &kp LPAR  &mkp LCLK     &kp FSLH   &kp MINUS  &kp EQUAL  &kp COLON  &kp SEMI
+			&kp SQT   &kp RBKT  &kp RBRC  &kp RPAR  &mkp RCLK   &kp BSLH   &kp UNDER  &kp PLUS   &kp PIPE   &kp QMARK
 			&kp C_MUTE &trans    &trans       &tog MOUSE     &trans  &studio_unlock
 			>;
 			sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp PG_UP PG_DN>;
