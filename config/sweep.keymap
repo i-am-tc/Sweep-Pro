@@ -86,7 +86,7 @@
 			&kp Z   &kp X       &kp C        &kp V        &kp B         &kp N      &kp M        &kp COMMA    &kp DOT     &kp ENTER
 			&kp C_MUTE  &lth LEF TAB  &kp LSHIFT    &kp SPACE  &lth RIG TAB   &studio_unlock
 			>;
-			sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp PG_UP PG_DN>;
+			sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp UP DOWN>;
 		};
 		
 		windows_layer {
@@ -97,7 +97,7 @@
 			&kp Z  &kp X       &kp C       &kp V        &kp B         &kp N      &kp M        &kp COMMA   &kp DOT     &kp ENTER
 			&kp C_MUTE  &lth LEF TAB  &kp LSHIFT     &kp SPACE &lth RIG TAB  &studio_unlock
 			>;
-			sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp PG_UP PG_DN>;
+			sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp UP DOWN>;
 		};
 		
 		right_layer {
@@ -108,7 +108,7 @@
 			&trans   &trans    &trans     &trans   &trans     &kp HOME  &kp PG_DN  &kp PG_UP  &kp END &trans
 			&kp C_MUTE &trans   &kp ESC   &trans  &trans &studio_unlock
 			>;
-			sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp PG_UP PG_DN>;
+			sensor-bindings = <&inc_dec_kp LC(MINUS) LC(EQUAL) &inc_dec_kp LEFT RIGHT>;
 		};
 		
 		left_layer {
@@ -119,7 +119,7 @@
 			&kp SQT   &kp RBKT  &kp RBRC  &kp RPAR  &mkp RCLK   &kp BSLH   &kp UNDER  &kp PLUS   &kp PIPE   &kp QMARK
 			&kp C_MUTE &trans    &trans       &tog MOUSE     &trans  &studio_unlock
 			>;
-			sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp PG_UP PG_DN>;
+			sensor-bindings = <&inc_dec_kp C_BRI_UP C_BRI_DN &inc_dec_kp PG_UP PG_DN>;
 		};
 		
 		tri_layer {
