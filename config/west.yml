@@ -4,6 +4,8 @@ manifest:
     url-base: https://github.com/lynnlee0522 # 修改这里
   - name: nxtkb
     url-base: https://github.com/nxtkb
+  - name: i-am-tc
+    url-base: https://github.com/i-am-tc
   projects:
   - name: zmk
     remote: zmkfirmware
@@ -14,7 +16,7 @@ manifest:
     revision: main
     import: west.yml
   - name: cirque-input-module
-    remote: nxtkb
-    revision: main
+    remote: i-am-tc
+    revision: scroll-disable
   self:
     path: config

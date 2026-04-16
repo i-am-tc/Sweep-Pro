@@ -44,6 +44,7 @@
 		sensitivity = "2x";
 		data-mode = "relative";
 		sleep-mode-enable;
+		scroll-disable;
 		invert-y;
 	};
 };
