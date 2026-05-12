@@ -39,7 +39,7 @@
 		triggers-per-rotation = <15>;
 	};
 	right_encoder {
-		triggers-per-rotation = <45>;
+		triggers-per-rotation = <15>;
 	};
 };
 
@@ -212,7 +212,7 @@
 			&ds_z 0 Z   &sel_x LCLK X       &kp C        &kp V        &kp B         &kp N      &kp M        &kp COMMA    &kp DOT     &kp ENTER
 			&kp C_MUTE  &lt LEF TAB  &kp LSHIFT    &kp SPACE  &lt RIG TAB   &studio_unlock
 			>;
-			sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp C_BRI_DEC C_BRI_UP>;
+			sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp PG_UP PG_DN>;
 		};
 		
 		windows_layer {
@@ -223,7 +223,7 @@
 			&ds_z 0 Z  &sel_x LCLK X       &kp C       &kp V        &kp B         &kp N      &kp M        &kp COMMA   &kp DOT     &kp ENTER
 			&kp C_MUTE  &lt LEF TAB  &kp LSHIFT     &kp SPACE &lt RIG TAB  &studio_unlock
 			>;
-			sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp C_BRI_DEC C_BRI_UP>;
+			sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp PG_UP PG_DN>;
 		};
 		
 		right_layer {
@@ -232,20 +232,20 @@
 			&kp N1   &kp N2    &kp N3     &kp N4   &kp N5     &kp N6  &kp N7    &kp N8     &kp N9     &kp N0
 			&kp DEL  &kp CAPS  &kp PSCRN  &kp INS  &trans     &kp LEFT  &kp DOWN   &kp UP  &kp RIGHT &trans
 			&trans   &trans    &trans     &trans   &trans     &kp HOME  &kp PG_DN  &kp PG_UP  &kp END &trans
-			&kp C_MUTE &trans   &kp ESC   &trans  &trans &studio_unlock
+			&kp C_MUTE &trans   &kp ESC   &tog MOUSE  &trans &studio_unlock
 			>;
-			sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp C_BRI_DEC C_BRI_UP>;
+			sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp PG_UP PG_DN>;
 		};
 		
 		left_layer {
 			display-name = "SYM";
 			bindings = <
 			&kp EXCL  &kp AT    &kp HASH  &kp DLLR  &kp PRCNT    &kp CARET  &kp AMPS   &kp ASTRK  &kp GRAVE  &kp TILDE
-			&kp DQT   &kp LBKT  &kp LBRC  &kp LPAR  &default_report     &kp FSLH   &kp MINUS  &kp EQUAL  &kp COLON  &kp SEMI
-			&kp SQT   &kp RBKT  &kp RBRC  &kp RPAR  &trans   &kp BSLH   &kp UNDER  &kp PLUS   &kp PIPE   &kp QMARK
-			&kp C_MUTE &trans    &trans       &tog MOUSE     &trans  &studio_unlock
+			&kp DQT   &kp LBKT  &kp LBRC  &kp LPAR  &mkp LCLK     &kp FSLH   &kp MINUS  &kp EQUAL  &kp COLON  &kp SEMI
+			&kp SQT   &kp RBKT  &kp RBRC  &kp RPAR  &mkp RCLK   &kp BSLH   &kp UNDER  &kp PLUS   &kp PIPE   &kp QMARK
+			&kp C_MUTE &trans    &trans       &trans     &trans  &studio_unlock
 			>;
-			sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp C_BRI_DEC C_BRI_UP>;
+			sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp PG_UP PG_DN>;
 		};
 		
 		tri_layer {
@@ -256,7 +256,7 @@
 			&kp F9  &kp F10  &kp F11  &kp F12  &bt BT_CLR      &bt BT_SEL 4  &kp C_BRI_DEC  &soft_off     &kp C_VOL_DN  &kp C_NEXT
 			&kp C_MUTE  &trans   &trans          &trans        &trans  &studio_unlock
 			>;
-			sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp C_BRI_DEC C_BRI_UP>;
+			sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp PG_UP PG_DN>;
 		};
 	
 		mouse {
