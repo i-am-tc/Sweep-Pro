@@ -3,7 +3,7 @@
 // #include <dt-bindings/zmk/rgb.h>
 
 #define ZMK_POINTING_DEFAULT_MOVE_VAL 2500// 600
-#define ZMK_POINTING_DEFAULT_SCRL_VAL 20// 10
+#define ZMK_POINTING_DEFAULT_SCRL_VAL 100// 10
 
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/bt.h>
@@ -58,7 +58,7 @@
 		pointer-curve-accel-divisor = <12>;
 		pointer-curve-max-delta = <120>;
 		one-x-multiplier = <1>;
-		one-x-divisor = <1>;
+		one-x-divisor = <2>;
 		min-percent = <10>;
 		max-percent = <400>;
 		initial-speed-position = <50>;

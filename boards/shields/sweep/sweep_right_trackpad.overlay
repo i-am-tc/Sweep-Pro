@@ -33,8 +33,8 @@
 		sensitivity = "2x";
 		data-mode = "absolute";
 		idle-packets-count = <3>;
-		absolute-touch-min-z = <12>;
-		absolute-relative-multiplier = <3>;
+		absolute-touch-min-z = <5>;
+		absolute-relative-multiplier = <6>;
 		absolute-relative-divisor = <10>;
 		absolute-tap-click-ms = <30>;
 		absolute-tap-drag-enable;
