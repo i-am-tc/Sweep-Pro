@@ -3,7 +3,7 @@
 // #include <dt-bindings/zmk/rgb.h>
 
 #define ZMK_POINTING_DEFAULT_MOVE_VAL 2500// 600
-#define ZMK_POINTING_DEFAULT_SCRL_VAL 200// 10
+#define ZMK_POINTING_DEFAULT_SCRL_VAL 300// 10
 
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/bt.h>
@@ -88,33 +88,11 @@
 			#binding-cells = <2>;
 		};
 
-		enc_ptr_spd: encoder_pointer_speed {
-			compatible = "zmk,behavior-sensor-rotate";
-			#sensor-binding-cells = <0>;
-			bindings = <&ptr_spd SPEED_POINTER SPEED_PREV>, <&ptr_spd SPEED_POINTER SPEED_NEXT>;
-		};
-
-		enc_scrl_spd: encoder_scroll_speed {
-			compatible = "zmk,behavior-sensor-rotate";
-			#sensor-binding-cells = <0>;
-			bindings = <&ptr_spd SPEED_SCROLL SPEED_PREV>, <&ptr_spd SPEED_SCROLL SPEED_NEXT>;
-		};
-
 		crq_mode: crqm {
 			compatible = "zmk,behavior-cirque-mode";
 			#binding-cells = <1>;
 		};
 
-		sel_x: select_x {
-			compatible = "zmk,behavior-hold-tap";
-			#binding-cells = <2>;
-			flavor = "tap-preferred";
-			tapping-term-ms = <200>;
-			quick-tap-ms = <150>;
-			require-prior-idle-ms = <125>;
-			bindings = <&mkp>, <&kp>;
-		};
-		
 		ds_z: drag_scroll_z {
 			compatible = "zmk,behavior-hold-tap";
 			#binding-cells = <2>;
@@ -209,7 +187,7 @@
 			bindings = <
 			&kp Q   &kp W       &kp E        &kp R        &kp T        &kp Y      &kp U        &kp I        &kp O       &kp P
 			&kp A   &ht LALT S  &ht LCTRL D  &ht LGUI F   &kp G         &kp H      &ht RGUI J   &ht RCTRL K  &ht RALT L  &kp BSPC
-			&ds_z 0 Z   &sel_x LCLK X       &kp C        &kp V        &kp B         &kp N      &kp M        &kp COMMA    &kp DOT     &kp ENTER
+			&ds_z 0 Z   &kp X       &kp C        &kp V        &kp B         &kp N      &kp M        &kp COMMA    &kp DOT     &kp ENTER
 			&kp C_MUTE  &lt LEF TAB  &kp LSHIFT    &kp SPACE  &lt RIG TAB   &studio_unlock
 			>;
 			sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp PG_UP PG_DN>;
@@ -220,7 +198,7 @@
 			bindings = <
 			&kp Q  &kp W       &kp E       &kp R        &kp T         &kp Y      &kp U        &kp I       &kp O       &kp P
 			&kp A  &ht LALT S  &ht LGUI D  &ht LCTRL F  &kp G         &kp H      &ht RCTRL J  &ht RGUI K  &ht RALT L  &kp BSPC
-			&ds_z 0 Z  &sel_x LCLK X       &kp C       &kp V        &kp B         &kp N      &kp M        &kp COMMA   &kp DOT     &kp ENTER
+			&ds_z 0 Z  &kp X       &kp C       &kp V        &kp B         &kp N      &kp M        &kp COMMA   &kp DOT     &kp ENTER
 			&kp C_MUTE  &lt LEF TAB  &kp LSHIFT     &kp SPACE &lt RIG TAB  &studio_unlock
 			>;
 			sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp PG_UP PG_DN>;
@@ -265,9 +243,9 @@
 			&tog MOUSE  &mkp MB4  &mkp MCLK  &mkp MB5   &trans      &msc SCRL_LEFT     &msc SCRL_DOWN    &msc SCRL_UP     &msc SCRL_RIGHT    &tog MOUSE
 			&trans      &trans    &trans     &trans     &trans      &mmv MOVE_LEFT     &mmv MOVE_DOWN    &mmv MOVE_UP     &mmv MOVE_RIGHT    &trans
 			&ptr_spd SPEED_POINTER SPEED_FINE_PREV  &ptr_spd SPEED_POINTER SPEED_FINE_NEXT  &ptr_spd SPEED_SCROLL SPEED_FINE_PREV  &ptr_spd SPEED_SCROLL SPEED_FINE_NEXT  &crq_mode CIRQUE_MODE_TOGGLE        &trans     &mkp MB4  &mkp MCLK  &mkp MB5  &trans
-			&ptr_spd SPEED_POINTER SPEED_RESET &kp SPACE  &kp LSHIFT  &mkp LCLK  &mkp RCLK &ptr_spd SPEED_SCROLL SPEED_RESET
+			&kp C_MUTE &kp SPACE  &kp LSHIFT  &mkp LCLK  &mkp RCLK &studio_unlock
 			>;
-			sensor-bindings = <&enc_ptr_spd &enc_scrl_spd>;
+			sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp PG_UP PG_DN>;
 		};
 	};
 };
