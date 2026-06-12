@@ -30,7 +30,7 @@
 		reg = <0x2a>;
 		status = "okay";
 		data-ready-gpios = <&gpio0 22 GPIO_ACTIVE_HIGH>;
-		sensitivity = "2x";
+		sensitivity = "3x";
 		data-mode = "absolute";
 		idle-packets-count = <3>;
 		absolute-touch-min-z = <8>;
@@ -38,7 +38,6 @@
 		absolute-relative-divisor = <10>;
 		absolute-tap-click-ms = <30>;
 		startup-delay-ms = <1500>;
-		glide-extend-enable;
 		invert-y;
 	};
 };
