@@ -30,7 +30,7 @@
 		reg = <0x2a>;
 		status = "okay";
 		data-ready-gpios = <&gpio0 22 GPIO_ACTIVE_HIGH>;
-		sensitivity = "3x";
+		sensitivity = "2x";
 		data-mode = "absolute";
 		idle-packets-count = <3>;
 		absolute-touch-min-z = <8>;
