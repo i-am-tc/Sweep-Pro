@@ -33,14 +33,24 @@ KCONFIG_REL = "app/src/split/bluetooth/Kconfig"
 
 # ── service.c: input queue + hardened callback + purge helper ───────
 
-SERVICE_INSERT_MARKER = "static int zmk_split_bt_report_input("
+# ── Block 1: forward declaration (BEFORE all send_* functions, OUTSIDE
+#    any #if IS_ENABLED(CONFIG_ZMK_INPUT_SPLIT) guard, so it's visible to
+#    send_position_state and send_sensor_state too).
+SERVICE_EARLY_MARKER = "K_THREAD_STACK_DEFINE(service_q_stack"
 
-SERVICE_INSERT_BLOCK = """/* Forward decl — defined in peripheral.c, exposed via the public header
- * <zmk/split/bluetooth/peripheral.h>. Kept here to avoid adding a new
- * include to service.c (which only sees the local peripheral.h). */
+SERVICE_EARLY_BLOCK = """/* Forward decl — defined in peripheral.c, exposed via the public header
+ * <zmk/split/bluetooth/peripheral.h>. Kept here (unconditionally, before
+ * any CONFIG_ZMK_INPUT_SPLIT guard) so send_position_state and
+ * send_sensor_state can use it too. */
 bool zmk_split_bt_peripheral_is_connected(void);
 
-struct input_event_notify_item {
+"""
+
+# ── Block 2: input queue + hardened callback (inside the existing
+#    #if IS_ENABLED(CONFIG_ZMK_INPUT_SPLIT) block, before report_input)
+SERVICE_INSERT_MARKER = "static int zmk_split_bt_report_input("
+
+SERVICE_INSERT_BLOCK = """struct input_event_notify_item {
     uint16_t attr_index;
     struct zmk_split_input_event_payload payload;
 };
@@ -69,19 +79,37 @@ static void send_input_event_callback(struct k_work *work) {
 
 static K_WORK_DEFINE(service_input_notify_work, send_input_event_callback);
 
+"""
+
+# ── Block 3: purge helper (AFTER the #endif that closes
+#    #if IS_ENABLED(CONFIG_ZMK_INPUT_SPLIT), so all three queues
+#    — position_state_msgq, sensor_state_msgq, input_event_msgq — exist
+#    before this function references them. This function itself is
+#    UNCONDITIONAL so it links even on boards without CONFIG_ZMK_INPUT_SPLIT
+#    like plain sweep_right).
+SERVICE_PURGE_MARKER = "#endif /* IS_ENABLED(CONFIG_ZMK_INPUT_SPLIT) */\n\nstatic int service_init(void) {"
+
+SERVICE_PURGE_REPLACEMENT = """#endif /* IS_ENABLED(CONFIG_ZMK_INPUT_SPLIT) */
+
 /* Drop all queued split-peripheral notifications. Called by the BT
  * disconnected() handler to prevent the work_q from draining stale
  * events against a dead link. Also purges the position and sensor
- * queues, which have the same latent drain-on-disconnect bug. */
+ * queues, which have the same latent drain-on-disconnect bug.
+ *
+ * MUST be outside any CONFIG_ZMK_INPUT_SPLIT guard: peripheral.c calls
+ * it unconditionally from disconnected(). The per-queue purges are
+ * individually guarded so they only reference queues that exist. */
 void zmk_split_bt_purge_split_queues(void) {
     k_msgq_purge(&position_state_msgq);
+#if IS_ENABLED(CONFIG_ZMK_INPUT_SPLIT)
     k_msgq_purge(&input_event_msgq);
+#endif
 #if ZMK_KEYMAP_HAS_SENSORS
     k_msgq_purge(&sensor_state_msgq);
 #endif
 }
 
-"""
+static int service_init(void) {"""
 
 SERVICE_OLD_NOTIFY = '            return bt_gatt_notify(NULL, &split_svc.attrs[i], &payload, sizeof(payload));'
 
@@ -216,15 +244,29 @@ def patch_service_c(path):
         print(f"  service.c: already patched (v2 marker found)")
         return False
 
+    if SERVICE_EARLY_MARKER not in src:
+        raise RuntimeError(f"Cannot find early insertion marker (K_THREAD_STACK_DEFINE) in {path}")
+
     if SERVICE_INSERT_MARKER not in src:
         raise RuntimeError(f"Cannot find insertion marker in {path}")
 
     if SERVICE_OLD_NOTIFY not in src:
         raise RuntimeError(f"Cannot find old notify call in {path}")
 
+    if SERVICE_PURGE_MARKER not in src:
+        raise RuntimeError(f"Cannot find purge insertion marker (#endif + service_init) in {path}")
+
+    # Block 1: forward declaration (unconditional, before all uses)
+    src = src.replace(SERVICE_EARLY_MARKER, SERVICE_EARLY_BLOCK + SERVICE_EARLY_MARKER, 1)
+
+    # Block 2: input queue + hardened callback (inside CONFIG_ZMK_INPUT_SPLIT)
     src = src.replace(SERVICE_INSERT_MARKER, SERVICE_INSERT_BLOCK + SERVICE_INSERT_MARKER, 1)
     src = src.replace(SERVICE_OLD_NOTIFY, SERVICE_NEW_NOTIFY, 1)
 
+    # Block 3: purge helper (after #endif CONFIG_ZMK_INPUT_SPLIT, before service_init)
+    src = src.replace(SERVICE_PURGE_MARKER, SERVICE_PURGE_REPLACEMENT, 1)
+
+    # is_connected guards on the three send_* entry points
     src, _ = _replace_once(src, SERVICE_OLD_REPORT_INPUT_START,
                            SERVICE_NEW_REPORT_INPUT_START, "report_input guard")
     src, _ = _replace_once(src, SERVICE_OLD_POS_STATE_START,
