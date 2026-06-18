@@ -122,7 +122,16 @@ jobs:
       # ──────────────────────────────────────────────────────────────────
       - name: Apply out-of-tree patches
         working-directory: ${{ env.base_dir }}
-        run: python3 "${GITHUB_WORKSPACE}/patches/apply_pr3110.py" "${{ env.base_dir }}/zmk"
+        run: |
+          # Reset cached ZMK source to pristine upstream. The west-modules
+          # cache restores zmk/ verbatim from the previous run, which
+          # includes out-of-tree patches applied then. `west update` only
+          # runs `git checkout <pinned-rev>`, a no-op when HEAD already
+          # matches, so local mods from prior runs persist. Without this
+          # reset, v2 of apply_pr3110.py failed at "Cannot find old notify
+          # call" because the v1 patch had already replaced that line.
+          git -C zmk reset --hard HEAD
+          python3 "${GITHUB_WORKSPACE}/patches/apply_pr3110.py" "${{ env.base_dir }}/zmk"
 
       - name: Check ZMK revision
         working-directory: ${{ env.base_dir }}
