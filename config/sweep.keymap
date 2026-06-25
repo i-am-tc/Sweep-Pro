@@ -3,7 +3,7 @@
 // #include <dt-bindings/zmk/rgb.h>
 
 #define ZMK_POINTING_DEFAULT_MOVE_VAL 2500// 600
-#define ZMK_POINTING_DEFAULT_SCRL_VAL 20// 10
+#define ZMK_POINTING_DEFAULT_SCRL_VAL 300// 10
 
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/bt.h>
@@ -36,10 +36,10 @@
 
 &sensors {
 	left_encoder {
-		triggers-per-rotation = <15>;
+		triggers-per-rotation = <30>;
 	};
 	right_encoder {
-		triggers-per-rotation = <45>;
+		triggers-per-rotation = <30>;
 	};
 };
 
@@ -98,6 +98,12 @@
 			compatible = "zmk,behavior-sensor-rotate";
 			#sensor-binding-cells = <0>;
 			bindings = <&ptr_spd SPEED_SCROLL SPEED_PREV>, <&ptr_spd SPEED_SCROLL SPEED_NEXT>;
+		};
+
+		enc_msc_scroll: encoder_msc_scroll {
+			compatible = "zmk,behavior-sensor-rotate";
+			#sensor-binding-cells = <0>;
+			bindings = <&msc SCRL_UP>, <&msc SCRL_DOWN>;
 		};
 
 		crq_mode: crqm {
@@ -159,46 +165,6 @@
 
 	combos {
 		compatible = "zmk,combos";
-
-		combo_er_right_click {
-			timeout-ms = <25>;
-			require-prior-idle-ms = <125>;
-			key-positions = <2 3>;
-			layers = <MAC WIN MOUSE>;
-			bindings = <&mkp RCLK>;
-		};
-
-		combo_rt_forward {
-			timeout-ms = <25>;
-			require-prior-idle-ms = <125>;
-			key-positions = <3 4>;
-			layers = <MAC WIN MOUSE>;
-			bindings = <&mkp MB5>;
-		};
-
-		combo_df_left_click {
-			timeout-ms = <25>;
-			require-prior-idle-ms = <125>;
-			key-positions = <12 13>;
-			layers = <MAC WIN MOUSE>;
-			bindings = <&mkp LCLK>;
-		};
-
-		combo_fg_back {
-			timeout-ms = <25>;
-			require-prior-idle-ms = <125>;
-			key-positions = <13 14>;
-			layers = <MAC WIN MOUSE>;
-			bindings = <&mkp MB4>;
-		};
-
-		combo_cv_middle_click {
-			timeout-ms = <25>;
-			require-prior-idle-ms = <125>;
-			key-positions = <22 23>;
-			layers = <MAC WIN MOUSE>;
-			bindings = <&mkp MCLK>;
-		};
 	};
 	
 	keymap {
@@ -209,10 +175,10 @@
 			bindings = <
 			&kp Q   &kp W       &kp E        &kp R        &kp T        &kp Y      &kp U        &kp I        &kp O       &kp P
 			&kp A   &ht LALT S  &ht LCTRL D  &ht LGUI F   &kp G         &kp H      &ht RGUI J   &ht RCTRL K  &ht RALT L  &kp BSPC
-			&ds_z 0 Z   &sel_x LCLK X       &kp C        &kp V        &kp B         &kp N      &kp M        &kp COMMA    &kp DOT     &kp ENTER
+			&kp Z   &kp X       &kp C        &kp V        &kp B         &kp N      &kp M        &kp COMMA    &kp DOT     &kp ENTER
 			&kp C_MUTE  &lt LEF TAB  &kp LSHIFT    &kp SPACE  &lt RIG TAB   &studio_unlock
 			>;
-			sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp C_BRI_DEC C_BRI_UP>;
+			sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp PG_UP PG_DN>;
 		};
 		
 		windows_layer {
@@ -220,32 +186,32 @@
 			bindings = <
 			&kp Q  &kp W       &kp E       &kp R        &kp T         &kp Y      &kp U        &kp I       &kp O       &kp P
 			&kp A  &ht LALT S  &ht LGUI D  &ht LCTRL F  &kp G         &kp H      &ht RCTRL J  &ht RGUI K  &ht RALT L  &kp BSPC
-			&ds_z 0 Z  &sel_x LCLK X       &kp C       &kp V        &kp B         &kp N      &kp M        &kp COMMA   &kp DOT     &kp ENTER
+			&kp Z  &kp X       &kp C       &kp V        &kp B         &kp N      &kp M        &kp COMMA   &kp DOT     &kp ENTER
 			&kp C_MUTE  &lt LEF TAB  &kp LSHIFT     &kp SPACE &lt RIG TAB  &studio_unlock
 			>;
-			sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp C_BRI_DEC C_BRI_UP>;
+			sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp PG_UP PG_DN>;
 		};
 		
 		right_layer {
 			display-name = "NUM";
 			bindings = <
 			&kp N1   &kp N2    &kp N3     &kp N4   &kp N5     &kp N6  &kp N7    &kp N8     &kp N9     &kp N0
-			&kp DEL  &kp CAPS  &kp PSCRN  &kp INS  &trans     &kp LEFT  &kp DOWN   &kp UP  &kp RIGHT &trans
-			&trans   &trans    &trans     &trans   &trans     &kp HOME  &kp PG_DN  &kp PG_UP  &kp END &trans
+			&kp DEL  &kp CAPS  &kp PSCRN  &kp INS  &msc SCRL_UP     &kp LEFT  &kp DOWN   &kp UP  &kp RIGHT &mkp LCLK
+			&mkp MB4   &mkp MB5    &msc SCRL_LEFT     &msc SCRL_RIGHT   &msc SCRL_DOWN     &kp HOME  &kp PG_DN  &kp PG_UP  &kp END &mkp RCLK
 			&kp C_MUTE &trans   &kp ESC   &trans  &trans &studio_unlock
 			>;
-			sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp C_BRI_DEC C_BRI_UP>;
+			sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &enc_msc_scroll>;
 		};
 		
 		left_layer {
 			display-name = "SYM";
 			bindings = <
 			&kp EXCL  &kp AT    &kp HASH  &kp DLLR  &kp PRCNT    &kp CARET  &kp AMPS   &kp ASTRK  &kp GRAVE  &kp TILDE
-			&kp DQT   &kp LBKT  &kp LBRC  &kp LPAR  &default_report     &kp FSLH   &kp MINUS  &kp EQUAL  &kp COLON  &kp SEMI
-			&kp SQT   &kp RBKT  &kp RBRC  &kp RPAR  &trans   &kp BSLH   &kp UNDER  &kp PLUS   &kp PIPE   &kp QMARK
+			&kp DQT   &kp LBKT  &kp LBRC  &kp LPAR  &mkp LCLK     &kp FSLH   &kp MINUS  &kp EQUAL  &kp COLON  &kp SEMI
+			&kp SQT   &kp RBKT  &kp RBRC  &kp RPAR  &mkp RCLK   &kp BSLH   &kp UNDER  &kp PLUS   &kp PIPE   &kp QMARK
 			&kp C_MUTE &trans    &trans       &tog MOUSE     &trans  &studio_unlock
 			>;
-			sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp C_BRI_DEC C_BRI_UP>;
+			sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp PG_UP PG_DN>;
 		};
 		
 		tri_layer {
@@ -267,7 +233,7 @@
 			&ptr_spd SPEED_POINTER SPEED_FINE_PREV  &ptr_spd SPEED_POINTER SPEED_FINE_NEXT  &ptr_spd SPEED_SCROLL SPEED_FINE_PREV  &ptr_spd SPEED_SCROLL SPEED_FINE_NEXT  &crq_mode CIRQUE_MODE_TOGGLE        &trans     &mkp MB4  &mkp MCLK  &mkp MB5  &trans
 			&ptr_spd SPEED_POINTER SPEED_RESET &kp SPACE  &kp LSHIFT  &mkp LCLK  &mkp RCLK &ptr_spd SPEED_SCROLL SPEED_RESET
 			>;
-			sensor-bindings = <&enc_ptr_spd &enc_scrl_spd>;
+			sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp PG_UP PG_DN>;
 		};
 	};
 };

@@ -80,7 +80,7 @@
 		compatible = "alps,ec11";
 		a-gpios = <&gpio0 11 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
 		b-gpios = <&gpio1 0 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
-		steps = <15>;
+		steps = <30>;
 		status = "disabled";
 	};
 	
@@ -88,7 +88,7 @@
 		compatible = "alps,ec11";
 		a-gpios = <&gpio0 11 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
 		b-gpios = <&gpio1 0 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
-		steps = <15>;
+		steps = <30>;
 		status = "disabled";
 	};
 	
