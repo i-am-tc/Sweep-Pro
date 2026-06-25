@@ -104,6 +104,7 @@
 			compatible = "zmk,behavior-sensor-rotate";
 			#sensor-binding-cells = <0>;
 			bindings = <&msc SCRL_UP>, <&msc SCRL_DOWN>;
+			tap-ms = <100>;
 		};
 
 		crq_mode: crqm {
@@ -198,7 +199,7 @@
 			&kp N1   &kp N2    &kp N3     &kp N4   &kp N5     &kp N6  &kp N7    &kp N8     &kp N9     &kp N0
 			&kp DEL  &kp CAPS  &kp PSCRN  &kp INS  &msc SCRL_UP     &kp LEFT  &kp DOWN   &kp UP  &kp RIGHT &mkp LCLK
 			&mkp MB4   &mkp MB5    &msc SCRL_LEFT     &msc SCRL_RIGHT   &msc SCRL_DOWN     &kp HOME  &kp PG_DN  &kp PG_UP  &kp END &mkp RCLK
-			&kp C_MUTE &trans   &kp ESC   &trans  &trans &studio_unlock
+			&kp C_MUTE &trans   &kp ESC   &tog MOUSE  &trans &studio_unlock
 			>;
 			sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &enc_msc_scroll>;
 		};
